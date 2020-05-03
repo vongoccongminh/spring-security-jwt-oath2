@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Component
@@ -13,11 +14,11 @@ public class JwtTokenProvider {
 
     private final String JWT_SECRET = "ILoveU";
 
-    private final Long JWT_EXPIRATION = 604800000L;
+//    private final Long JWT_EXPIRATION = 60L;
 
     public String generateToken(UserDetails userDetails) {
         Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION);
+        Date expiryDate = Date.from(ZonedDateTime.now().plusMinutes(2).toInstant());
 
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
